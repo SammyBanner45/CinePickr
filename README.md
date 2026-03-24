@@ -77,4 +77,4 @@ The application will be fully responsive and optimized for:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/cinepickr.git
+   git clone https://github.com/SammyBanner45/cinepickr.git
