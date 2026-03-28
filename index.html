@@ -4,30 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CinePickr</title>
-
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
-
 <body>
-<div class="app-container">
-
-     <div class="app-container">
+    <div class="app-container">
         
         <header class="top-nav">
             <div class="nav-left">
-                <div class="logo">CINEPICKR</div>
+                <div class="logo">CinePickr</div>
                 <nav class="nav-links">
                     <a href="#" class="active">Home</a>
-                   
+                
                 </nav>
             </div>
             <div class="nav-right">
                 
+                <button class="nav-icon-btn"><ion-icon name="notifications-outline"></ion-icon></button>
                 <div class="avatar"> 
                     <ion-icon name="person-outline"></ion-icon> 
                 </div> 
@@ -66,35 +63,72 @@
                                 <option value="title-desc">Z-A</option>
                             </select>
                         </div>
-                    </div>
-                    
+                        <div class="search-container">
+                    <ion-icon name="search-outline" class="search-icon"></ion-icon> 
+                    <input type="text" id="search-input" placeholder="Search movies...">
                 </div>
+                    </div>
+                   
+                </div> 
 
-                
                  <div id="movies-container" class="movies-grid">
                     <div class="empty-state">
-                        <ion-icon name="film-outline"></ion-icon>
+                        <img src="logo.png" alt="n/a" height="400px" width="450px">
                         <h2>Welcome to CinePickr</h2>
                         <p>Search for a movie to start exploring.</p>
                     </div>
                 </div>
-                <div class="search-container">
-                    <ion-icon name="search-outline" class="search-icon"></ion-icon> 
-                    <input type="text" id="search-input" placeholder="Search movies...">
+            </section> 
+
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div>
+                        <h2>Library</h2>
+                        <p>Your Collection</p>
+                    </div>
+                    <button id="clear-watchlist-btn" class="clear-btn">CLEAR ALL</button>
                 </div>
-            
- <div id="movie-modal" class="modal-overlay hidden">
+
+                <div class="sidebar-menu">
+                    <div class="menu-item active">
+                        <ion-icon name="bookmark"></ion-icon>
+                        <span>My List</span>
+                        <span id="watchlist-count" class="badge">0</span>
+                    </div>
+                    
+                    <div class="menu-item" id="theme-toggle-btn">
+                        <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
+                        <span id="theme-text">Dark Mode</span>
+                    </div>
+                </div>
+
+                <div class="recent-saves">
+                    <div id="watchlist-container" class="watchlist-list">
+
+                        <div class="empty-watchlist">
+                            <p>Your watchlist is empty.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom">
+                    <button id="random-movie-btn" class="action-btn secondary-btn">
+                        <ion-icon name="dice-outline"></ion-icon>
+                        Random Movie Night
+                    </button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <div id="movie-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <button id="close-modal-btn" class="close-btn"><ion-icon name="close-outline"></ion-icon></button>
             <div id="modal-body" class="modal-body">
                 
             </div>
         </div>
-    </div> 
-
-
-
-<script src="script.js"></script>
-
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
