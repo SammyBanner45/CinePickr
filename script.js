@@ -2,12 +2,58 @@ const API_KEY = '23dc7de6';
 const BASE_URL = 'https://www.omdbapi.com/';
 const searchInput = document.getElementById('search-input');
 const moviesContainer = document.getElementById('movies-container');
+const watchlistContainer = document.getElementById('watchlist-container');
+const watchlistCount = document.getElementById('watchlist-count');
+const clearWatchlistBtn = document.getElementById('clear-watchlist-btn');
+const sortSelect = document.getElementById('sort-select');
+const typeFilter = document.getElementById('type-filter');
+const randomMovieBtn = document.getElementById('random-movie-btn');
 
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const themeIcon = document.getElementById('theme-icon');
+const themeText = document.getElementById('theme-text');
+const movieModal = document.getElementById('movie-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
 
 const modalBody = document.getElementById('modal-body');
 
 let searchResults = [];
 let watchlist = JSON.parse(localStorage.getItem('cinepickr_watchlist')) || [];
+
+function init() {
+    initTheme();
+    renderWatchlist();
+    setupEventListeners();
+}
+
+
+
+function showLoadingState() {
+    moviesContainer.innerHTML = `
+        <div class="loading">
+            <ion-icon name="sync-outline" style="animation: spin 1s linear infinite; font-size: 32px; color: var(--accent-color);"></ion-icon>
+            <p style="margin-top: 10px;">Searching for movies...</p>
+        </div>
+    `;
+
+    if (!document.getElementById('spin-style')) {
+        const style = document.createElement('style');
+        style.id = 'spin-style';
+        style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+        document.head.appendChild(style);
+    }
+}
+
+function showEmptyState(title, message) {
+    moviesContainer.innerHTML = `
+        <div class="empty-state">
+            <ion-icon name="film-outline"></ion-icon>
+            <h2>${title}</h2>
+            <p>${message}</p>
+        </div>
+    `;
+}
+
 
 let debounceTimer;
     searchInput.addEventListener('input', (e) => {
@@ -161,3 +207,70 @@ function renderMovies(movies) {
 
     cardElements.map(node => moviesContainer.appendChild(node));
 }
+function updateDisplays() {
+    if (searchResults.length === 0 && searchInput.value.trim() !== '') {
+        return; 
+    } else if (searchResults.length === 0) {
+        return showEmptyState('Explore movies', 'Type a movie name to search.');
+    }
+    const typeValue = typeFilter.value;
+    const filteredResults = searchResults.filter(movie => {
+        if (typeValue === 'all') return true;
+        return movie.Type === typeValue;
+    });
+
+    const sortValue = sortSelect.value;
+
+    const sortedResults = [...filteredResults].sort((a, b) => {
+        const getYear = (yearStr) => parseInt(yearStr.substring(0, 4)) || 0;
+
+        switch (sortValue) {
+            case 'year-desc':
+                return getYear(b.Year) - getYear(a.Year);
+            case 'year-asc':
+                return getYear(a.Year) - getYear(b.Year);
+            case 'title-asc':
+                return a.Title.localeCompare(b.Title);
+            case 'title-desc':
+                return b.Title.localeCompare(a.Title);
+            default:
+                return 0;
+        }
+    });
+
+    renderMovies(sortedResults);
+}
+
+
+
+
+
+
+
+function showLoadingState() {
+    moviesContainer.innerHTML = `
+        <div class="loading">
+            <ion-icon name="sync-outline" style="animation: spin 1s linear infinite; font-size: 32px; color: var(--accent-color);"></ion-icon>
+            <p style="margin-top: 10px;">Searching for movies...</p>
+        </div>
+    `;
+
+    if (!document.getElementById('spin-style')) {
+        const style = document.createElement('style');
+        style.id = 'spin-style';
+        style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+        document.head.appendChild(style);
+    }
+}
+
+function showEmptyState(title, message) {
+    moviesContainer.innerHTML = `
+        <div class="empty-state">
+            <ion-icon name="film-outline"></ion-icon>
+            <h2>${title}</h2>
+            <p>${message}</p>
+        </div>
+    `;
+}
+
+init();

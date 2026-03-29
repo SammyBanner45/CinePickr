@@ -1,6 +1,6 @@
 :root {
-    --bg-main: #0f1115;
-    --bg-secondary: #16181f;
+    --bg-main: #0b0518;
+    --bg-secondary:  #050d2a;
     --bg-card: #000000;
     --bg-hover: #2a2e38;
 
@@ -55,7 +55,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
-    background-color: var(--bg-main);
+    background-color: var(--bg-card);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
