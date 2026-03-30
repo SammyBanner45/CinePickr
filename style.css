@@ -1,12 +1,12 @@
 :root {
     --bg-main: #0b0518;
-    --bg-secondary:  #050d2a;
+    --bg-secondary: #4e69cb ;
     --bg-card: #000000;
     --bg-hover: #2a2e38;
 
     --text-primary: #ffffff;
-    --text-secondary: #8ba0b8;
-    --accent-color: #0d48eb;
+    --text-secondary: #050d2a;
+    --accent-color: rgb(6, 128, 243);
     --accent-hover: #4b7cdf;
 
     --border-color: #2a2e38;
@@ -154,7 +154,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f0ba82, #d15d65);
+    background: linear-gradient(135deg, var(--accent-hover));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -189,7 +189,7 @@ body {
 }
 
 .filter-label {
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1px;
@@ -197,7 +197,7 @@ body {
 
 .filter-dropdown select {
     appearance: none;
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 10px 35px 10px 15px;
@@ -472,7 +472,7 @@ body.light-mode {
     justify-content: center;
     padding: 80px 20px;
     text-align: center;
-    color: var(--text-secondary);
+    color: var(--accent-color);
 }
 
 .empty-state ion-icon {
