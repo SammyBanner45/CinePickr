@@ -611,9 +611,9 @@ body.light-mode {
     --bg-card: #ffffff;
     --bg-hover: #e4e6eb;
     --text-primary: #1c1e21;
-    --accent-color: rgb(6, 128, 243);
-    --accent-hover: #5b8def;
+ 
     --border-color: #ccd0d5;
+    
 }
 
 .modal-overlay {
