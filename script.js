@@ -104,7 +104,7 @@ function renderMovies(movies) {
                 <div class="movie-meta">
                     <span>${movie.Type}</span>
                     <button class="add-btn ${isAdded ? 'added' : ''}">
-                        ${isAdded ? '✓' : '+'}
+                        ${isAdded ? '✓' : '⭐︎'}
                     </button>
                 </div>
             </div>
@@ -190,3 +190,17 @@ async function openMovieDetails(id) {
 }
 
 renderWatchlist();
+
+
+
+function initTheme() {
+    const saved = localStorage.getItem('cinepickr_theme');
+    if (saved === 'light') {
+        document.body.classList.add('light-mode');
+    }
+}
+themeToggleBtn.addEventListener('click', () => {
+    const isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('cinepickr_theme', isLight ? 'light' : 'dark');
+});
+initTheme();
