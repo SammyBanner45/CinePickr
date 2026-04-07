@@ -756,3 +756,66 @@ body.light-mode {
     width: 90px;
     display: inline-block;
 }
+
+.nav-links a {
+    color: #8ba0b8;
+}
+body.light-mode .nav-links a {
+    color: #555;
+}
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text-primary);
+}
+body.light-mode .nav-links a:hover,
+body.light-mode .nav-links a.active {
+    color: #111;
+}
+
+.view-all-link {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 11px 16px;
+    border-radius: var(--border-radius-md);
+    background: var(--text-secondary);
+    border: 1px solid rgba(6,128,243,0.25);
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.view-all-link:hover {
+    background: rgba(6,128,243,0.2);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+.view-all-link ion-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.recent-saves .section-title {
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    opacity: 0.7;
+    text-transform: uppercase;
+}
+
+.watchlist-item {
+    cursor: pointer;
+}
+
+body.light-mode .view-all-link {
+    background: var(--bg-main);
+    border-color: rgba(6,128,243,0.2);
+}

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinePickr — My Favourites</title>
+    <meta name="description" content="Browse your full CinePickr favourites list with search and sorting.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        .fav-page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .fav-hero {
+            background: linear-gradient(135deg, #0b0518 0%, #12083a 50%, #0b0518 100%);
+            padding: 48px 48px 36px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light-mode .fav-hero {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 50%, #e8eaf6 100%);
+        }
+
+        .fav-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(6,128,243,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .fav-hero-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .fav-hero-title-group h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .fav-hero-title-group p {
+            font-size: 14px;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        #fav-count-label {
+            font-size: 14px;
+            color: var(--accent-color);
+        }
+
+        #random-movie-btn-fav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 20px rgba(6, 128, 243, 0.35);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        #random-movie-btn-fav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(6, 128, 243, 0.5);
+        }
+
+        #random-movie-btn-fav:active {
+            transform: translateY(0);
+        }
+
+        #random-movie-btn-fav ion-icon {
+            font-size: 20px;
+        }
+
+        .fav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .fav-search-container {
+            background-color: rgba(255,255,255,0.07);
+            border-radius: 20px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 220px;
+            max-width: 420px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        body.light-mode .fav-search-container {
+            background-color: rgba(0,0,0,0.06);
+            border-color: rgba(0,0,0,0.12);
+        }
+
+        .fav-search-container:focus-within {
+            border-color: var(--accent-color);
+            background-color: rgba(6,128,243,0.06);
+        }
+
+        .fav-search-container ion-icon {
+            color: var(--accent-color);
+            font-size: 18px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        #fav-search-input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        #fav-search-input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        body.light-mode #fav-search-input::placeholder {
+            color: rgba(0,0,0,0.35);
+        }
+
+        .fav-filter-dropdown select {
+            appearance: none;
+            background-color: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            padding: 10px 35px 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238ba0b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        body.light-mode .fav-filter-dropdown select {
+            background-color: rgba(0,0,0,0.06);
+            border-color: rgba(0,0,0,0.12);
+        }
+
+        .fav-filter-dropdown select:hover,
+        .fav-filter-dropdown select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .fav-main {
+            flex: 1;
+            padding: 36px 48px 60px;
+        }
+
+        .fav-results-info {
+            font-size: 13px;
+            color: var(--accent-color);
+            margin-bottom: 24px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        #fav-movies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        #fav-movies-container .movie-card {
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+            position: relative;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #fav-movies-container .movie-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 36px rgba(6, 128, 243, 0.28);
+        }
+
+        .fav-theme-btn {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background 0.2s ease, border-color 0.2s ease;
+            flex-shrink: 0;
+        }
+        body.light-mode .fav-theme-btn {
+            background: rgba(0,0,0,0.07);
+            border-color: rgba(0,0,0,0.12);
+        }
+        .fav-theme-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .empty-fav-state {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            text-align: center;
+            color: var(--accent-color);
+            gap: 16px;
+        }
+
+        .empty-fav-state ion-icon {
+            font-size: 72px;
+            opacity: 0.4;
+            color: var(--accent-color);
+        }
+
+        .empty-fav-state h2 {
+            color: var(--text-primary);
+            font-size: 22px;
+        }
+
+        .empty-fav-state p {
+            font-size: 15px;
+            color: var(--accent-color);
+            opacity: 0.7;
+        }
+
+        .empty-fav-state a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 12px 24px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .empty-fav-state a:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .fav-hero {
+                padding: 32px 24px 24px;
+            }
+            .fav-hero-title-group h1 {
+                font-size: 26px;
+            }
+            .fav-main {
+                padding: 24px 24px 48px;
+            }
+            .fav-hero-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #random-movie-btn-fav {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .fav-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .fav-search-container,
+            .fav-filter-dropdown select {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fav-page-wrapper">
+
+        <header class="top-nav">
+            <div class="nav-left">
+                <div class="logo">CinePickr</div>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="favourites.html" class="active">Favourites</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <div class="avatar">
+                    <ion-icon name="person-outline"></ion-icon>
+                </div>
+            </div>
+        </header>
+
+        <section class="fav-hero">
+            <div class="fav-hero-top">
+                <div class="fav-hero-title-group">
+                    <h1>My Favourites</h1>
+                    <p id="fav-count-label">0 titles saved</p>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                    <button id="fav-theme-btn" class="fav-theme-btn" aria-label="Toggle theme">
+                        <ion-icon name="moon-outline" id="fav-theme-icon"></ion-icon>
+                    </button>
+
+                    <button id="random-movie-btn-fav">
+                        <ion-icon name="dice-outline"></ion-icon>
+                        Random Movie Night
+                    </button>
+                </div>
+            </div>
+            <div class="fav-controls">
+                <div class="fav-search-container">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <input type="text" id="fav-search-input" placeholder="Search your favourites…">
+                </div>
+
+                <div class="fav-filter-dropdown">
+                    <select id="fav-type-filter">
+                        <option value="all">All Types</option>
+                        <option value="movie">Movies</option>
+                        <option value="series">Series</option>
+                    </select>
+                </div>
+
+                <div class="fav-filter-dropdown">
+                    <select id="fav-sort-select">
+                        <option value="default">Recently Added</option>
+                        <option value="year-desc">Newest First</option>
+                        <option value="year-asc">Oldest First</option>
+                        <option value="title-asc">A – Z</option>
+                        <option value="title-desc">Z – A</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <main class="fav-main">
+            <p class="fav-results-info" id="fav-results-info"></p>
+            <div id="fav-movies-container"></div>
+        </main>
+
+    </div>
+
+    <div id="movie-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-btn"><ion-icon name="close-outline"></ion-icon></button>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="favourites.js"></script>
+</body>
+</html>

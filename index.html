@@ -18,8 +18,8 @@
             <div class="nav-left">
                 <div class="logo">CinePickr</div>
                 <nav class="nav-links">
-                    <a href="#" class="active">Home</a>
-                
+                    <a href="index.html" class="active">Home</a>
+                    <a href="favourites.html">Favourites</a>
                 </nav>
             </div>
             <div class="nav-right">
@@ -84,33 +84,35 @@
                         <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
                         <span id="theme-text">Dark Mode</span>
                     </div>
-
-
                     
                     <div class="menu-item active">
                         <ion-icon name="bookmark"></ion-icon>
                         <span>My List</span>
                         <span id="watchlist-count" class="badge">0</span>
                     </div>
-                    
-                    
                 </div>
 
                 <div class="recent-saves">
+                    <p class="section-title">RECENTLY ADDED</p>
                     <div id="watchlist-container" class="watchlist-list">
-
                         <div class="empty-watchlist">
-                            <p>Your watchlist is empty.</p>
+                            <p>Your list is empty.</p>
                         </div>
+                    </div>
+                    <a href="favourites.html" id="view-all-link" class="view-all-link" style="display:none">
+                        <ion-icon name="grid-outline"></ion-icon>
+                        View all favourites
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                    <div class="sidebar-bottom">
+                        <button id="random-movie-btn" class="action-btn secondary-btn">
+                            <ion-icon name="dice-outline"></ion-icon>
+                            Random Movie Night
+                        </button>
                     </div>
                 </div>
 
-                <div class="sidebar-bottom">
-                    <button id="random-movie-btn" class="action-btn secondary-btn">
-                        <ion-icon name="dice-outline"></ion-icon>
-                        Random Movie Night
-                    </button>
-                </div>
+                
             </aside>
         </main>
     </div>
@@ -123,6 +125,7 @@
             </div>
         </div>
     </div>
+    <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

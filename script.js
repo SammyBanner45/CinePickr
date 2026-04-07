@@ -10,6 +10,9 @@ const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const movieModal = document.getElementById('movie-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const modalBody = document.getElementById('modal-body');
+const viewAllLink = document.getElementById('view-all-link');
+
+const SIDEBAR_LIMIT = 3;
 
 let searchResults = [];
 let watchlist = JSON.parse(localStorage.getItem('cinepickr_watchlist')) || [];
@@ -49,7 +52,7 @@ async function handleSearch(e) {
         return;
     }
 
-    const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=23dc7de6`);
+    const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${CONFIG.API_KEY}`);
     const data = await res.json();
 
     if (data.Response === "True") {
@@ -142,24 +145,36 @@ function saveWatchlist() {
 function renderWatchlist() {
     watchlistCount.textContent = watchlist.length;
 
+    if (viewAllLink) {
+        viewAllLink.style.display = watchlist.length > SIDEBAR_LIMIT ? 'flex' : 'none';
+        const extra = watchlist.length - SIDEBAR_LIMIT;
+        viewAllLink.querySelector('ion-icon') && (viewAllLink.title = `+${extra} more`);
+    }
+
     if (!watchlist.length) {
-        watchlistContainer.innerHTML = `<div class="empty-watchlist">Empty</div>`;
+        watchlistContainer.innerHTML = `<div class="empty-watchlist"><p>Your list is empty.</p></div>`;
         return;
     }
 
     watchlistContainer.innerHTML = '';
 
-    [...watchlist].reverse().forEach(movie => {
+    const recent = [...watchlist].reverse().slice(0, SIDEBAR_LIMIT);
+
+    recent.forEach(movie => {
         const item = document.createElement('div');
         item.className = 'watchlist-item';
 
+        const poster = movie.Poster && movie.Poster !== 'N/A'
+            ? movie.Poster
+            : 'https://via.placeholder.com/40x60?text=?';
+
         item.innerHTML = `
-            <img src="${movie.Poster}" class="wl-poster">
+            <img src="${poster}" class="wl-poster" alt="${movie.Title}">
             <div class="wl-info">
                 <div class="wl-title">${movie.Title}</div>
                 <div class="wl-meta">${movie.Year}</div>
             </div>
-            <button class="wl-remove-btn">✕</button>
+            <button class="wl-remove-btn" title="Remove">✕</button>
         `;
 
         item.querySelector('.wl-remove-btn').onclick = (e) => {
@@ -177,7 +192,7 @@ async function openMovieDetails(id) {
     movieModal.classList.remove('hidden');
     modalBody.innerHTML = `<p style="padding:20px;">Loading...</p>`;
 
-    const res = await fetch(`https://www.omdbapi.com/?i=${id}&plot=full&apikey=23dc7de6`);
+  const res = await fetch(`https://www.omdbapi.com/?i=${id}&plot=full&apikey=${CONFIG.API_KEY}`);
     const data = await res.json();
 
     modalBody.innerHTML = `
