@@ -279,13 +279,17 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
-            transition: background 0.2s ease, transform 0.2s ease;
+            width: fit-content;
+            box-shadow: 0 4px 16px rgba(6, 128, 243, 0.35);
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .empty-fav-state a:hover {
             background: var(--accent-hover);
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(6, 128, 243, 0.5);
         }
+      
 
         @media (max-width: 768px) {
             .fav-hero {
@@ -317,6 +321,7 @@
                 max-width: 100%;
                 width: 100%;
             }
+            
         }
     </style>
 </head>
@@ -332,9 +337,20 @@
                 </nav>
             </div>
             <div class="nav-right">
-                <div class="avatar">
-                    <ion-icon name="person-outline"></ion-icon>
+                <div class="avatar" id="avatar-btn">
+                    <ion-icon name="person-outline" id="avatar-icon"></ion-icon>
                 </div>
+                <form class="login-form" id="login-form">
+                    <button type="button" class="login-close-btn" id="login-close-btn">
+                        <ion-icon name="close-outline"></ion-icon>
+                    </button>
+                    <h3>Welcome Back</h3>
+                    <input type="email" placeholder="Your email" class="login-box">
+                    <input type="password" placeholder="Your password" class="login-box">
+                    <p>Forgot your password? <a href="#">Click here</a></p>
+                    <p>Don't have an account? <a href="#">Create now</a></p>
+                    <input type="submit" value="Login" class="login-submit-btn">
+                </form>
             </div>
         </header>
 

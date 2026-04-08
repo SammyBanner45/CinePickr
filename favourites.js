@@ -11,8 +11,26 @@ const closeModalBtn  = document.getElementById('close-modal-btn');
 const modalBody      = document.getElementById('modal-body');
 const favThemeBtn    = document.getElementById('fav-theme-btn');
 const favThemeIcon   = document.getElementById('fav-theme-icon');
+const avatarBtn      = document.getElementById('avatar-btn');
+const loginForm      = document.getElementById('login-form');
+const loginCloseBtn  = document.getElementById('login-close-btn');
 
 let watchlist = JSON.parse(localStorage.getItem('cinepickr_watchlist')) || [];
+
+avatarBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    loginForm.classList.toggle('active');
+});
+
+loginCloseBtn.addEventListener('click', () => {
+    loginForm.classList.remove('active');
+});
+
+document.addEventListener('click', (e) => {
+    if (!loginForm.contains(e.target) && !avatarBtn.contains(e.target)) {
+        loginForm.classList.remove('active');
+    }
+});
 
 
 function initTheme() {
@@ -71,9 +89,9 @@ function renderFavourites() {
                 <ion-icon name="bookmark-outline"></ion-icon>
                 <h2>Nothing saved yet</h2>
                 <p>Head to the home page and star some movies to build your collection.</p>
-                <a href="index.html">
-                    <ion-icon name="home-outline"></ion-icon>
-                    Go to Home
+                <a href="index.html" style="align-self:center;width:auto;">
+                   
+                    Home
                 </a>
             </div>`;
         return;

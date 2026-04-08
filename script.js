@@ -7,12 +7,32 @@ const sortSelect = document.getElementById('sort-select');
 const typeFilter = document.getElementById('type-filter');
 const randomMovieBtn = document.getElementById('random-movie-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const themeIcon      = document.getElementById('theme-icon');
+const themeText      = document.getElementById('theme-text');
 const movieModal = document.getElementById('movie-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const modalBody = document.getElementById('modal-body');
 const viewAllLink = document.getElementById('view-all-link');
+const avatarBtn   = document.getElementById('avatar-btn');
+const loginForm   = document.getElementById('login-form');
+const loginCloseBtn = document.getElementById('login-close-btn');
 
 const SIDEBAR_LIMIT = 3;
+
+avatarBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    loginForm.classList.toggle('active');
+});
+
+loginCloseBtn.addEventListener('click', () => {
+    loginForm.classList.remove('active');
+});
+
+document.addEventListener('click', (e) => {
+    if (!loginForm.contains(e.target) && !avatarBtn.contains(e.target)) {
+        loginForm.classList.remove('active');
+    }
+});
 
 let searchResults = [];
 let watchlist = JSON.parse(localStorage.getItem('cinepickr_watchlist')) || [];
@@ -212,10 +232,14 @@ function initTheme() {
     const saved = localStorage.getItem('cinepickr_theme');
     if (saved === 'light') {
         document.body.classList.add('light-mode');
+        themeIcon.setAttribute('name', 'sunny-outline');
+        themeText.textContent = 'Light Mode';
     }
 }
 themeToggleBtn.addEventListener('click', () => {
     const isLight = document.body.classList.toggle('light-mode');
     localStorage.setItem('cinepickr_theme', isLight ? 'light' : 'dark');
+    themeIcon.setAttribute('name', isLight ? 'sunny-outline' : 'moon-outline');
+    themeText.textContent = isLight ? 'Light Mode' : 'Dark Mode';
 });
 initTheme();
